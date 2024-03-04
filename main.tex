@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\usepackage[a4paper,top=1cm,bottom=1cm,left=1cm,right=1cm]{geometry}
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+\usepackage{tgadventor}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{ragged2e}
+\usepackage{graphicx} 
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usepackage{tikzsymbols}
+\usetikzlibrary{positioning}
+\usepackage{pgffor}
+
+\title{\Huge Escursione: <nome escursione>}
+\date{}
+\author{}
+
+\begin{document}
+\include{valutazione.tex}
+\maketitle
+
+\begin{minipage}[t]{0.5\textwidth}
+    \faCalendar* DATA:\\
+    \\
+    \faSmile[regular] COMPAGNIA:\\
+    \\
+    \faMapPin[regular] LUOGO DI PARTENZA:\\
+    %Ora/Temperatura/Quota\\
+    \\
+    \faMapPin[regular] LUOGO DI ARRIVO:\\
+    %Ora/Temperatura/Quota\\
+    \\
+    \faMountain[regular] CIME RAGGIUNTE:\\
+    %\\
+    \vspace*{1cm}\\
+    KM PERCORSI:\\
+    DISLIVELLO:\\
+    DURATA:\\
+    QUOTA MASSIMA:\\
+\end{minipage} 
+%NON INIZIARE NUOVO PARAGRAFO
+\begin{minipage}[t]{0.4\textwidth}
+%modificare i file meteo, tipo_percorso, difficoltà per scegliere l'opzione
+    METEO:
+    \include{meteo.tex}
+    TIPO DI PERCORSO:
+    \include{tipo_percorso.tex}   
+    LIVELLO DI DIFFICOLT\'A:
+    \include{difficolta.tex}
+\end{minipage}
+\centering
+\raisebox{-7ex}
+{
+\begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
+    \stanchezza{2}{5}\\ %es: livello di stanchezza 2 su 5
+    \\
+    \esperienza{3}{5}  %es: valutazione generale 3 su 5
+\end{minipage}
+}
+\vspace*{1cm}\\
+%tutte le foto che vuoiii <3
+%\includegraphics[width=0.3\textwidth]{}
+%\hspace{0.5cm}
+%\includegraphics[width=0.3\textwidth]{}
+%\hspace{0.5cm}
+%\includegraphics[width=0.3\textwidth]{}
+
+\vspace*{1cm}
+NOTE: 
+
+\end{document}

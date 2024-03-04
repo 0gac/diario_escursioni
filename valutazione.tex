@@ -1,0 +1,27 @@
+\newcommand{\stanchezza}[2]{
+\begin{tikzpicture}
+    \node () at (-2,0) {LIVELLO DI STANCHEZZA};
+    \foreach \i in {1,...,#1}{
+    \node (\i) at (\i,0) {\Large\faBatteryFull}; }
+    \ifnum #2>#1
+        \foreach \i in {#1+1,...,#2}{
+        \node (\i) at (\i,0) {\Large\faBatteryEmpty}; 
+        }
+    \fi
+\end{tikzpicture}    
+}
+
+\newcommand{\esperienza}[2]{
+\begin{tikzpicture}
+    \node () at (-2,0) {VALUTAZIONE ESPERIENZA};
+    \foreach \i in {1,...,#1}{
+    \node (\i) at (\i,0) {\Large\faGrinStars}; }
+
+    \ifnum #2>#1
+        \foreach \i in {#1+1,...,#2}{
+        \node (\i) at (\i,0) {\Large\faGrinStars[regular]};
+        }
+    \fi
+        
+\end{tikzpicture}    
+}

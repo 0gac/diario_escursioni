@@ -1,0 +1,19 @@
+ \begin{tikzpicture}[main/.style = {draw, rectangle, rounded corners=0.1cm,minimum height = 0.5cm, minimum width=0.5cm}, align=center]
+%\faTimes per inserire la crocetta :)
+    \node [main] (sun) {}; 
+    \node (sun1)[right=0.1 of sun]{\Large\faSun};
+    
+    \node [main] (cloudSun) [right=0.4 of sun1] {\faTimes};
+    \node (cloudSun1)[right=0.1 of cloudSun]{\Large\faCloudSun};
+    
+    \node [main] (cloudSunRain) [right=0.4 of cloudSun1] {};
+    \node (cloudSunRain1)[right=0.1 of cloudSunRain]{\Large\faCloudSunRain};
+    
+     \node [main] (shower) [right=0.4 of cloudSunRain1] {};
+    \node (shower1)[right=0.1 of shower]{\Large\faCloudShowersHeavy};
+
+    \node [main] (snow) [right=0.4 of shower1] {};
+    \node (snow1)[right=0.1 of snow]{\Large\faSnowflake};
+    
+
+\end{tikzpicture}
