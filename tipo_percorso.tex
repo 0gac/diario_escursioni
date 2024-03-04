@@ -1,13 +1,35 @@
-\begin{tikzpicture}[main/.style = {draw, rectangle, rounded corners=0.1cm,minimum height = 0.5cm, minimum width=0.5cm}, align=center]
-%\faTimes per inserire la crocetta :)
-    \node [main] (a) {};
-    \node (a1)[right=0.1 of a]{$\longrightarrow$\\Solo Andata};    
-    
-    \node [main] (ar) [right=0.4 of a1] {};
-    \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\longrightarrow$\\
-    $\longleftarrow$\\Andata e \\ritorno};  
-    
-    \node [main] (anello) [right=0.4 of ar1] {\faTimes};
-    \node (anello1)[right=0.1 of anello]{$\bigcirc$\\Ad anello};
+\newcommand{\tipopercorso}[1]{
+    \def\macroin{#1}
+    \def\macroA{A}
+    \def\macroAR{AR}
+    \def\macroAnello{Anello}
+    \begin{tikzpicture}[main/.style = {draw, rectangle, rounded corners=0.1cm,minimum height = 0.5cm, minimum width=0.5cm}, align=center]
+    %\faTimes per inserire la crocetta :)
+        \ifx\macroA\macroin
+            \node [main] (a) {\faTimes};
+            \node (a1)[right=0.1 of a]{$\longrightarrow$\\Solo Andata};    
+        \else
+            \node [main] (a) {};
+            \node (a1)[right=0.1 of a]{$\longrightarrow$\\Solo Andata};
+        \fi
 
-\end{tikzpicture}
+        \ifx\macroR\macroin
+            \node [main] (ar) [right=0.4 of a1] {\faTimes};
+            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\longrightarrow$\\
+        $\longleftarrow$\\Andata e \\ritorno};  
+        \else
+            \node [main] (ar) [right=0.4 of a1] {};
+            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\longrightarrow$\\
+        $\longleftarrow$\\Andata e \\ritorno};
+        \fi
+
+        \ifx\macroAnello\macroin
+            \node [main] (anello) [right=0.4 of ar1] {\faTimes};
+            \node (anello1)[right=0.1 of anello]{$\bigcirc$\\Ad anello};
+        \else
+            \node [main] (anello) [right=0.4 of ar1] {};
+            \node (anello1)[right=0.1 of anello]{$\bigcirc$\\Ad anello};
+        \fi
+
+    \end{tikzpicture}
+}

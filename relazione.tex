@@ -22,6 +22,9 @@
 
 \begin{document}
 \include{valutazione.tex}
+\include{difficolta.tex}
+\include{meteo.tex}
+\include{tipo_percorso.tex}
 \maketitle
 
 \begin{minipage}[t]{0.5\textwidth}
@@ -45,22 +48,24 @@
 \end{minipage} 
 %NON INIZIARE NUOVO PARAGRAFO
 \begin{minipage}[t]{0.4\textwidth}
-%modificare i file meteo, tipo_percorso, difficoltà per scegliere l'opzione
-    METEO:
-    \include{meteo.tex}
-    TIPO DI PERCORSO:
-    \include{tipo_percorso.tex}   
-    LIVELLO DI DIFFICOLT\'A:
-    \include{difficolta.tex}
+    METEO: \\ \\
+    \meteo{S}
+
+    TIPO DI PERCORSO: \\ \\
+    \tipopercorso{Anello}
+
+    LIVELLO DI DIFFICOLT\'A: \\ \\
+    \difficolta{T}
+
 \end{minipage}
 \centering
-\raisebox{-7ex}
-{
-\begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
-    \stanchezza{2}{5}\\ %es: livello di stanchezza 2 su 5
-    \\
-    \esperienza{3}{5}  %es: valutazione generale 3 su 5
-\end{minipage}
+
+\raisebox{-7ex}{
+    \begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
+        \stanchezza{2}{5}\\ %es: livello di stanchezza 2 su 5
+        \\
+        \esperienza{3}{5}  %es: valutazione generale 3 su 5
+    \end{minipage}
 }
 \vspace*{1cm}\\
 %tutte le foto che vuoiii <3
