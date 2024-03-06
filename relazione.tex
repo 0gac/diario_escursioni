@@ -15,8 +15,11 @@
 \usepackage{tikzsymbols}
 \usetikzlibrary{positioning}
 \usepackage{pgffor}
+\usepackage{caption}
+\usepackage{multirow}
+\usepackage{multicol}
 
-\title{\Huge Escursione: <nome escursione>}
+\title{\Huge Escursione: Slittata a malga Gurndin}
 \date{}
 \author{}
 
@@ -28,28 +31,32 @@
 \maketitle
 
 \begin{minipage}[t]{0.5\textwidth}
-    \faCalendar* DATA:\\
+    \faCalendar* DATA: 03/03/2024\\
     \\
-    \faSmile[regular] COMPAGNIA:\\
+    \faSmile[regular] COMPAGNIA: Ceci \faHeart\\
     \\
-    \faMapPin[regular] LUOGO DI PARTENZA:\\
+    \faMapPin[regular] LUOGO DI PARTENZA: Redagno di sopra, \\
+    \hspace*{4cm} $\approx 1500$ m slm,\\
+    \hspace*{4cm} $\approx$ 10:00.
     %Ora/Temperatura/Quota\\
     \\
-    \faMapPin[regular] LUOGO DI ARRIVO:\\
+    \faMapPin[regular] LUOGO DI ARRIVO: Malga Gurndin,\\
+    \hspace*{3.5cm} $1956$ m slm,\\
+    \hspace*{3.5cm} $\approx$ 11:30.
     %Ora/Temperatura/Quota\\
     \\
     \faMountain[regular] CIME RAGGIUNTE:\\
     %\\
     \vspace*{1cm}\\
-    KM PERCORSI:\\
-    DISLIVELLO:\\
-    DURATA:\\
-    QUOTA MASSIMA:\\
+    KM PERCORSI: $\approx 15$. \\
+    DISLIVELLO: $750$ m.\\
+    DURATA: 5:11.\\
+    QUOTA MASSIMA: $\approx 1970$ m slm.\\
 \end{minipage} 
 %NON INIZIARE NUOVO PARAGRAFO
 \begin{minipage}[t]{0.4\textwidth}
     METEO: \\ \\
-    \meteo{S}
+    \meteo{C}
 
     TIPO DI PERCORSO: \\ \\
     \tipopercorso{Anello}
@@ -64,10 +71,29 @@
     \begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
         \stanchezza{2}{5}\\ %es: livello di stanchezza 2 su 5
         \\
-        \esperienza{3}{5}  %es: valutazione generale 3 su 5
+        \esperienza{5}{5}  %es: valutazione generale 3 su 5
     \end{minipage}
 }
-\vspace*{1cm}\\
+\vspace*{1cm}
+
+% tabella con due foto, tipo copertina
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}}
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[width = 0.8\textwidth]{"resources/slittata/both.jpeg"}
+            \captionof*{figure}{Salita travagliata}
+        \end{minipage} &
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[width = 0.8\textwidth]{"resources/slittata/gia_malga.jpeg"}
+            \captionof*{figure}{Il monoslitta}
+        \end{minipage} \\
+    \end{tabular}
+\end{table}
+
+\newpage
 %tutte le foto che vuoiii <3
 %\includegraphics[width=0.3\textwidth]{}
 %\hspace{0.5cm}
@@ -75,7 +101,53 @@
 %\hspace{0.5cm}
 %\includegraphics[width=0.3\textwidth]{}
 
-\vspace*{1cm}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}}
+        \multirow{2}{*}{
+            \begin{minipage}{\linewidth}
+                \centering
+                \includegraphics[scale = 0.6]{"resources/slittata/track.pdf"}
+            \end{minipage}
+        } &
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[scale = 0.4]{"resources/slittata/ele.pdf"}
+        \end{minipage} \\
+        & 
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[scale = 0.4]{"resources/slittata/hr.pdf"}
+        \end{minipage} \\
+    \end{tabular}
+\end{table}
+
+\vspace*{2cm}
+
+% tabella con foto relative alla mappa
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}}
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[width = 0.5\textwidth]{"resources/slittata/malga.jpeg"}
+            \captionof{figure}{Gurndin Alm}
+        \end{minipage} &
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[width = 0.5\textwidth]{"resources/slittata/ceci.jpeg"}
+            \captionof{figure}{Tentativi falliti di discesa}
+        \end{minipage} \\
+        \begin{minipage}{\linewidth}
+            \centering
+            \includegraphics[width = 0.5\textwidth]{"resources/slittata/pupazzo.jpeg"}
+            \captionof{figure}{Pupazzo capovolto :(}
+        \end{minipage}
+    \end{tabular}
+\end{table}
+
+\newpage
+
 NOTE: 
 
 \end{document}

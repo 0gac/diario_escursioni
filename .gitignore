@@ -1,5 +1,7 @@
 .vscode/
 *.pdf
 *.gpx
+resources/
+relazioni/
 out_tex/
 mappe/dev/

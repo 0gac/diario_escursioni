@@ -96,7 +96,7 @@ class GpxReadout:
     
 
 
-def plottrack(gpx: GpxReadout, timeinput: np.ndarray):
+def plottrack(gpx: GpxReadout, timeinput: np.ndarray, outpath: str):
     fig, ax = plt.subplots()
     if gpx.numele != 0:
         ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5, c=gpx.ele, cmap='viridis_r')
@@ -126,12 +126,12 @@ def plottrack(gpx: GpxReadout, timeinput: np.ndarray):
                     arrowprops=dict(
                     arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
                     color='k'))
-    fig.savefig('track.pdf')
+    fig.savefig(outpath + 'track.pdf')
     plt.close(fig)
     return count_images
 
 
-def plothr(gpx: GpxReadout):
+def plothr(gpx: GpxReadout, outpath: str):
     if gpx.numhr != 0:
         fig, ax = plt.subplots()
         ax.xaxis.set_major_formatter(FuncFormatter(lambda x, pos: gpx.convert_elap(x)))
@@ -140,14 +140,14 @@ def plothr(gpx: GpxReadout):
         ax.set_ylabel('Heart rate [BPM]')
         ax.grid()
         ax.plot(gpx.elap_time, gpx.hr, color='red')
-        fig.savefig('hr.pdf')
+        fig.savefig(outpath + 'hr.pdf')
         plt.close(fig)
         return 0
     else:
         return -1
 
 
-def plotele(gpx: GpxReadout):
+def plotele(gpx: GpxReadout, outpath: str):
     if gpx.numele != 0:
         fig, ax = plt.subplots()
         ax.xaxis.set_major_formatter(FuncFormatter(lambda x, pos: gpx.convert_elap(x)))
@@ -156,7 +156,7 @@ def plotele(gpx: GpxReadout):
         ax.set_ylabel('Elevation [m SLM]')
         ax.grid()
         ax.plot(gpx.elap_time, gpx.ele, color='green')
-        fig.savefig('ele.pdf')
+        fig.savefig(outpath + 'ele.pdf')
         plt.close(fig)
         return 0
     else:
@@ -165,6 +165,7 @@ def plotele(gpx: GpxReadout):
 
 def main():
     path = ''
+    outpath = ''
     timestrings = []
 
     # arguments parsing bruttissimo 
@@ -173,6 +174,9 @@ def main():
         if sys.argv[argind] == "-p":
             argind += 1
             path = sys.argv[argind]
+        if sys.argv[argind] == "-op":
+            argind += 1
+            outpath = sys.argv[argind]
         if sys.argv[argind] == "-t":
             timestrings = []
             argind += 1
@@ -184,9 +188,9 @@ def main():
                     argind += 1
 
     gpx = GpxReadout(path)
-    plottrack(gpx, timestrings)
-    plothr(gpx)
-    plotele(gpx)
+    plottrack(gpx, timestrings, outpath)
+    plothr(gpx, outpath)
+    plotele(gpx, outpath)
 
 
 if __name__ == "__main__":
