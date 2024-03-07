@@ -13,22 +13,20 @@
             \node (a1)[right=0.1 of a]{$\longrightarrow$\\Solo Andata};
         \fi
 
-        \ifx\macroR\macroin
+        \ifx\macroAR\macroin
             \node [main] (ar) [right=0.4 of a1] {\faTimes};
-            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\longrightarrow$\\
-        $\longleftarrow$\\Andata e \\ritorno};  
+            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\leftrightarrows$\\Andata e \\ritorno};  
         \else
             \node [main] (ar) [right=0.4 of a1] {};
-            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\longrightarrow$\\
-        $\longleftarrow$\\Andata e \\ritorno};
+            \node (ar1)[right=0.1 of ar][minimum size = 0.01cm]{$\leftrightarrows$\\Andata e \\ritorno};
         \fi
 
         \ifx\macroAnello\macroin
             \node [main] (anello) [right=0.4 of ar1] {\faTimes};
-            \node (anello1)[right=0.1 of anello]{$\bigcirc$\\Ad anello};
+            \node (anello1)[right=0.1 of anello]{$\circlearrowright$\\Ad anello};
         \else
             \node [main] (anello) [right=0.4 of ar1] {};
-            \node (anello1)[right=0.1 of anello]{$\bigcirc$\\Ad anello};
+            \node (anello1)[right=0.1 of anello]{$\circlearrowright$\\Ad anello};
         \fi
 
     \end{tikzpicture}

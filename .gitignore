@@ -3,5 +3,5 @@
 *.gpx
 resources/
 relazioni/
-out_tex/
-mappe/dev/
+src_tex/out_tex/
+src_mappe/dev/

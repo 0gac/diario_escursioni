@@ -99,11 +99,20 @@ class GpxReadout:
 def plottrack(gpx: GpxReadout, timeinput: np.ndarray, outpath: str):
     fig, ax = plt.subplots()
     if gpx.numele != 0:
-        ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5, c=gpx.ele, cmap='viridis_r')
+        plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5, c=gpx.ele, cmap='viridis_r')
+        handles, labels = plot.legend_elements(prop="colors", alpha = 0.6)
+        ax.legend(handles, labels, loc = "lower left", title = "altitudine")
     else:
         ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5)
 
-    ax.axis('off')
+    ax.tick_params(
+        axis = "both",
+        which = "both",
+        bottom = False,
+        left = False,
+        labelbottom = False,
+        labelleft = False
+    )
     startpoint = np.reshape(gpx.coordinate[gpx.times == min(gpx.times)], 2)
     endpoint = np.reshape(gpx.coordinate[gpx.times == max(gpx.times)], 2)
     ax.scatter(startpoint[1], startpoint[0], s=60, color='green')
@@ -126,7 +135,7 @@ def plottrack(gpx: GpxReadout, timeinput: np.ndarray, outpath: str):
                     arrowprops=dict(
                     arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
                     color='k'))
-    fig.savefig(outpath + 'track.pdf')
+    fig.savefig(outpath + 'track.pdf', bbox_inches = "tight")
     plt.close(fig)
     return count_images
 

@@ -1,0 +1,129 @@
+\documentclass{article}
+
+\usepackage[a4paper,top=1cm,bottom=1cm,left=1cm,right=1cm]{geometry}
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+\usepackage{tgadventor}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{ragged2e}
+\usepackage{graphicx} 
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usepackage{tikzsymbols}
+\usetikzlibrary{positioning}
+\usepackage{pgffor}
+\usepackage{caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{subcaption}
+\usepackage{amssymb}
+
+\title{\Huge Escursione: }
+\date{}
+\author{}
+
+\begin{document}
+\include{valutazione.tex}
+\include{difficolta.tex}
+\include{meteo.tex}
+\include{tipo_percorso.tex}
+\maketitle
+
+\begin{minipage}[t]{0.5\textwidth}
+    \faCalendar* DATA: \\
+    \\
+    \faSmile[regular] COMPAGNIA: \\
+    \\
+    \faMapPin[regular] , \\
+    %\hspace*{4cm} \\
+    %Ora/Temperatura/Quota\\
+    \\
+    \faMapPin[regular] LUOGO DI ARRIVO: ,\\
+    %\hspace*{3.5cm} \\
+    %Ora/Temperatura/Quota\\
+    \\
+    \faMountain[regular] CIME RAGGIUNTE:\\
+    %\\
+    \vspace*{1cm}\\
+    KM PERCORSI: \\
+    DISLIVELLO: \\
+    DURATA: \\
+    QUOTA MASSIMA: \\
+\end{minipage} 
+%NON INIZIARE NUOVO PARAGRAFO
+\begin{minipage}[t]{0.4\textwidth}
+    METEO: \\ \\
+    \meteo{C}
+
+    TIPO DI PERCORSO: \\ \\
+    \tipopercorso{Anello}
+
+    LIVELLO DI DIFFICOLT\'A: \\ \\
+    \difficolta{T}
+
+\end{minipage}
+
+\begin{center}
+    \raisebox{-7ex}{
+        \begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
+            \stanchezza{2}{5}\\ %es: livello di stanchezza 2 su 5
+            \\
+            \esperienza{5}{5}  %es: valutazione generale 3 su 5
+        \end{minipage}
+    }
+\vspace*{1cm}
+
+% tabella con due foto, tipo copertina
+\begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width = 0.8\textwidth]{""}
+    \captionof*{figure}{}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width = 0.8\textwidth]{""}
+    \captionof*{figure}{}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\include{grafici.tex}
+
+\newpage
+
+
+\begin{center}
+    \large{NOTE:}
+\end{center}
+
+
+
+\vspace*{2cm}
+
+\begin{center}
+\begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width = 0.7\textwidth]{""}
+    \captionof*{figure}{}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width = 0.7\textwidth]{""}
+    \captionof*{figure}{}
+\end{minipage} 
+
+\vspace*{.5cm}
+\begin{minipage}{0.45\linewidth}
+    \centering
+    \includegraphics[width = 0.7\textwidth]{""}
+    \captionof*{figure}{}
+\end{minipage}
+\end{center}
+
+
+
+\end{document}
