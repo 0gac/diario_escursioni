@@ -5,3 +5,4 @@ resources/
 relazioni/
 src_tex/out_tex/
 src_mappe/dev/
+src_mappe/__pycache__
