@@ -69,6 +69,21 @@ class GpxReadout:
                                 self.ele.append(None)
                             self.numele = self.numpoints
                         self.ele.append(int(testele.group(1)))
+
+            # check if the number of points is consistent for the last cycles
+            if self.numtime != self.numpoints:
+                for i in range(self.numpoints - self.numtime):
+                    self.times.append(datetime.time.fromisoformat('00:00:00'))
+                    self.days.append(datetime.datetime.fromisoformat('1970-01-01'))
+                    self.numtime = self.numpoints
+            if self.numhr != self.numpoints:
+                for i in range(self.numpoints - self.numhr):
+                    self.hr.append(np.nan)
+                    self.numhr = self.numpoints
+            if self.numele != self.numpoints:
+                for i in range(self.numpoints - self.numele):
+                    self.ele.append(None)
+                    self.numele = self.numpoints
                                 
 
         self.coordinate_raw = np.array(self.coordinate_raw)
