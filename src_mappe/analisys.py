@@ -27,7 +27,6 @@ def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray = None, ve
     endpoint = np.reshape(gpx.coordinate[gpx.times == max(gpx.times)], 2)
     ax.scatter(startpoint[1], startpoint[0], s=60, color='green')
     ax.scatter(endpoint[1], endpoint[0], s=60, color='red')
-    
 
     count_images = 0
     if timeinput is not None:
@@ -48,14 +47,14 @@ def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray = None, ve
                         color='k'))
     fig.savefig(outpath + 'track.pdf', bbox_inches="tight")
     plt.close(fig)
-    if verbose: 
+    if verbose:
         track_extremes = gpx.get_extremes()
         print("ora di inizio | ora di fine")
-        print(track_extremes['exttimes'][0], " | " , track_extremes['exttimes'][1])
+        print(track_extremes['exttimes'][0], " | ", track_extremes['exttimes'][1])
     return count_images
 
 
-def plotmultiday(gpxs: list, outpath: str, verbose = False):
+def plotmultiday(gpxs: list, outpath: str, verbose=False):
     tracks = []
     tracks_ele = []
     tracks_extremes = []
@@ -99,7 +98,7 @@ def plotmultiday(gpxs: list, outpath: str, verbose = False):
         ax.scatter(e['startcoords'][1], e['startcoords'][0], s=60, c='k')
         ax.scatter(e['endcoords'][1], e['endcoords'][0], s=60, c='k')
         # adding "notte numero " annotation
-        if counter != len(tracks_extremes)-1: 
+        if counter != len(tracks_extremes)-1:
             label = "Notte " +\
                     str(counter + 1) +\
                     "\n" + str(e['extdays'][1].day) +\
@@ -110,30 +109,31 @@ def plotmultiday(gpxs: list, outpath: str, verbose = False):
                         color='k', size='large',
                         arrowprops=dict(
                         arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
-                        color='k'))
+                        color='k'),
+                        weight='bold')
         counter += 1
-    
-    fd = [te['extdays'][0] for te in tracks_extremes] # first days
-    ld = [te['extdays'][1] for te in tracks_extremes] # last days
-    endcoords = [te['endcoords'] for te in tracks_extremes] # end coord for each day
-    startcoords = [te['startcoords'] for te in tracks_extremes] # stard coord for each day
-    
-    startcoordstot = [s for s, f in zip(startcoords, fd) if f == min(fd)][0] # start coord for the first day
-    endcoordstot = [e for e, l in zip(endcoords, ld) if l == max(ld)][0] # end coord for the last day
 
-    ax.scatter(endcoordstot[1], # end of the last day
+    fd = [te['extdays'][0] for te in tracks_extremes]  # first days
+    ld = [te['extdays'][1] for te in tracks_extremes]  # last days
+    endcoords = [te['endcoords'] for te in tracks_extremes]  # end coord for each day
+    startcoords = [te['startcoords'] for te in tracks_extremes]  # stard coord for each day
+
+    startcoordstot = [s for s, f in zip(startcoords, fd) if f == min(fd)][0]  # start coord for the first day
+    endcoordstot = [e for e, l in zip(endcoords, ld) if l == max(ld)][0]  # end coord for the last day
+
+    ax.scatter(endcoordstot[1],  # end of the last day
                endcoordstot[0],
                s=90, c='r')
-    ax.scatter(startcoordstot[1], # start of the first day
+    ax.scatter(startcoordstot[1],  # start of the first day
                startcoordstot[0],
                s=90, c='g')
-    
+
     fig.savefig(outpath + 'multidaytrack.pdf', bbox_inches="tight")
     plt.close(fig)
-    if verbose: 
+    if verbose:
         print("ora di inizio | ora di fine")
         for te in tracks_extremes:
-            print(te['exttimes'][0], " | " , te['exttimes'][1])
+            print(te['exttimes'][0], " | ", te['exttimes'][1])
     return 0
 
 
@@ -185,11 +185,11 @@ def main():
         return -1
 
     # output path
-    if "-op" in args:
+    if "op" in args:
         if len(args["op"]) != 1:
             print("Too many output paths")
             return -1
-        outpath = args["op"]
+        outpath = args["op"][0]
     else:
         outpath = ''
 
@@ -202,7 +202,7 @@ def main():
     # verbose
     if "v" in args:
         verbose = True
-    else: 
+    else:
         verbose = False
 
     # execution

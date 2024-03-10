@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{../common/pacchetti}
+\title{\Huge Escursione: }
+\author{}
+\date{}
+
+\begin{document}
+\input{../common/valutazione.tex}
+\input{../common/difficolta.tex}
+\maketitle
+
+\begin{minipage}[t]{0.22\textwidth}
+    \faSmile[regular] \quad COMPAGNIA: \\
+    \quad Person*
+
+    \vspace*{1cm}
+
+    \faMapMarked \quad  ZONA: \\
+    \quad posto
+
+\end{minipage} 
+%NON INIZIARE NUOVO PARAGRAFO
+% mappa totale
+\begin{minipage}{0.5\textwidth}
+    \centering
+    \title{\faRoute \quad GIRO COMPLETO} \\
+    % generata con src_mappe
+    \includegraphics[width = \textwidth]{"../../../../resources//multidaytrack.pdf"}
+\end{minipage}
+%NON INIZIARE NUOVO PARAGRAFO
+\begin{minipage}[t]{0.22\textwidth}
+    \faRoad \quad KM TOTALI: \\
+    \quad 47 km
+
+    \vspace*{1cm}
+
+    \faRulerVertical \quad ASCESA TOTALE: \\
+    \quad 3700 mt 
+
+    \end{minipage}
+
+\begin{center}
+    \raisebox{-7ex}{
+        \begin{minipage}[H]{0.5\textwidth} %non riesco a togliere gli errori qui :(
+            \stanchezza{5}{5}\\ %es: livello di stanchezza 2 su 5
+            \\
+            \esperienza{4}{5}  %es: valutazione generale 3 su 5
+        \end{minipage}
+    }
+\end{center}
+
+% foto vari campi serali
+
+% esempio per l'alta via del granito
+% \begin{center}
+%     \large{Campo per la prima notte: Rifugio cima d'Asta} \\
+% \begin{minipage}{0.4\textwidth}
+%     \includegraphics[width = \textwidth]{"../../../../resources/altaviadelgranito/sera1_day.pdf"}
+% \end{minipage}
+% \begin{minipage}{0.4\textwidth}
+%     \includegraphics[width = \textwidth]{"../../../../resources/altaviadelgranito/sera1_night.pdf"}
+% \end{minipage}
+% 
+% \vspace*{.5cm}
+% 
+% \large{Campo per la seconda notte: lago grande, sotto Cimon Rava} \\
+% \begin{minipage}{0.4\textwidth}
+%     \includegraphics[width = \textwidth]{"../../../../resources/altaviadelgranito/sera2_day.pdf"}
+% \end{minipage}
+% \begin{minipage}{0.4\textwidth}
+%     \includegraphics[width = \textwidth]{"../../../../resources/altaviadelgranito/sera2_night.pdf"}
+% \end{minipage}
+% \end{center}
+
+
+\end{document}

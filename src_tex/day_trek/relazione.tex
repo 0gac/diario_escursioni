@@ -1,35 +1,15 @@
 \documentclass{article}
-
-\usepackage[a4paper,top=1cm,bottom=1cm,left=1cm,right=1cm]{geometry}
-\pagenumbering{gobble}
-\setlength{\parindent}{0pt}
-\usepackage{tgadventor}
-\renewcommand*\familydefault{\sfdefault}
-\usepackage[T1]{fontenc}
-\usepackage{ragged2e}
-\usepackage{graphicx} 
-\usepackage{float}
-\usepackage{wrapfig}
-\usepackage{fontawesome5}
-\usepackage{tikz}
-\usepackage{tikzsymbols}
-\usetikzlibrary{positioning}
-\usepackage{pgffor}
-\usepackage{caption}
-\usepackage{multirow}
-\usepackage{multicol}
-\usepackage{subcaption}
-\usepackage{amssymb}
+\usepackage{../common/pacchetti}
 
 \title{\Huge Escursione: }
 \date{}
 \author{}
 
 \begin{document}
-\include{valutazione.tex}
-\include{difficolta.tex}
-\include{meteo.tex}
-\include{tipo_percorso.tex}
+\input{../common/valutazione.tex}
+\input{../common/difficolta.tex}
+\input{meteo.tex}
+\input{tipo_percorso.tex}
 \maketitle
 
 \begin{minipage}[t]{0.5\textwidth}
