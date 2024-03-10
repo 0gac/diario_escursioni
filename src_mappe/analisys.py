@@ -6,7 +6,7 @@ import datetime
 import tools as tl
 
 
-def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray = None):
+def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray = None, verbose = False):
     fig, ax = plt.subplots()
     if gpx.numele != 0:
         plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5, c=gpx.ele, cmap='viridis_r')
@@ -48,28 +48,21 @@ def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray = None):
                         color='k'))
     fig.savefig(outpath + 'track.pdf', bbox_inches="tight")
     plt.close(fig)
+    if verbose: 
+        track_extremes = gpx.get_extremes()
+        print("ora di inizio | ora di fine")
+        print(track_extremes['exttimes'][0], " | " , track_extremes['exttimes'][1])
     return count_images
 
 
-def plotmultiday(gpxs: list, outpath: str):
+def plotmultiday(gpxs: list, outpath: str, verbose = False):
     tracks = []
     tracks_ele = []
     tracks_extremes = []
-    trek_days = []
     for gpx in gpxs:
-        if isinstance(gpx.days, np.ndarray):
-            trek_days.append(min(gpx.days))
-        else:
-            trek_days.append(gpx.days)
         tracks.append(gpx.coordinate_raw)
         tracks_ele.append(gpx.ele)
-        tracks_extremes.append([[gpx.coordinate_raw[gpx.times == min(gpx.times), 0],
-                                 gpx.coordinate_raw[gpx.times == min(gpx.times), 1]],
-                                [gpx.coordinate_raw[gpx.times == max(gpx.times), 0],
-                                 gpx.coordinate_raw[gpx.times == max(gpx.times), 1]]])
-
-    tracks_extremes = np.array(tracks_extremes)
-    trek_days = np.array(trek_days)
+        tracks_extremes.append(gpx.get_extremes())
 
     maxx = max([max(t[:, 0]) for t in tracks])
     maxy = max([max(t[:, 1]) for t in tracks])
@@ -78,8 +71,12 @@ def plotmultiday(gpxs: list, outpath: str):
         t[:, 0] = t[:, 0] / maxx
         t[:, 1] = t[:, 1] / maxy
 
-    tracks_extremes[:, :, 0] = tracks_extremes[:, :, 0] / maxx
-    tracks_extremes[:, :, 1] = tracks_extremes[:, :, 1] / maxy
+    for te in tracks_extremes:
+        # normalization of start/stop coordinates considering all the tracks
+        te['startcoords'][0] = te['startcoords_raw'][0] / maxx
+        te['startcoords'][1] = te['startcoords_raw'][1] / maxy
+        te['endcoords'][0] = te['endcoords_raw'][0] / maxx
+        te['endcoords'][1] = te['endcoords_raw'][1] / maxy
 
     fig, ax = plt.subplots()
     ax.tick_params(
@@ -99,26 +96,44 @@ def plotmultiday(gpxs: list, outpath: str):
 
     counter = 0
     for e in tracks_extremes:
-        ax.scatter(e[0, 1], e[0, 0], s=60, c='k') # start of the day
-        ax.scatter(e[1, 1], e[1, 0], s=60, c='k') # end of the day
+        ax.scatter(e['startcoords'][1], e['startcoords'][0], s=60, c='k')
+        ax.scatter(e['endcoords'][1], e['endcoords'][0], s=60, c='k')
         # adding "notte numero " annotation
-        if counter != np.shape(tracks_extremes)[0]-1:    
-            ax.annotate("Notte " + str(counter + 1), xy=(e[1, 1], e[1, 0]), xytext=(30, 30),
+        if counter != len(tracks_extremes)-1: 
+            label = "Notte " +\
+                    str(counter + 1) +\
+                    "\n" + str(e['extdays'][1].day) +\
+                    "/" + str(e['extdays'][1].month) +\
+                    "/" + str(e['extdays'][1].year)
+            ax.annotate(label, xy=(e['endcoords'][1], e['endcoords'][0]), xytext=(30, 30),
                         textcoords='offset points',
                         color='k', size='large',
                         arrowprops=dict(
                         arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
                         color='k'))
         counter += 1
+    
+    fd = [te['extdays'][0] for te in tracks_extremes] # first days
+    ld = [te['extdays'][1] for te in tracks_extremes] # last days
+    endcoords = [te['endcoords'] for te in tracks_extremes] # end coord for each day
+    startcoords = [te['startcoords'] for te in tracks_extremes] # stard coord for each day
+    
+    startcoordstot = [s for s, f in zip(startcoords, fd) if f == min(fd)][0] # start coord for the first day
+    endcoordstot = [e for e, l in zip(endcoords, ld) if l == max(ld)][0] # end coord for the last day
 
-    ax.scatter(tracks_extremes[trek_days == max(trek_days), 1, 1], # end of the last day
-               tracks_extremes[trek_days == max(trek_days), 1, 0],
+    ax.scatter(endcoordstot[1], # end of the last day
+               endcoordstot[0],
                s=90, c='r')
-    ax.scatter(tracks_extremes[trek_days == min(trek_days), 0, 1], # start of the first day
-               tracks_extremes[trek_days == min(trek_days), 0, 0],
+    ax.scatter(startcoordstot[1], # start of the first day
+               startcoordstot[0],
                s=90, c='g')
+    
     fig.savefig(outpath + 'multidaytrack.pdf', bbox_inches="tight")
     plt.close(fig)
+    if verbose: 
+        print("ora di inizio | ora di fine")
+        for te in tracks_extremes:
+            print(te['exttimes'][0], " | " , te['exttimes'][1])
     return 0
 
 
@@ -184,15 +199,21 @@ def main():
     else:
         timestrings = []
 
+    # verbose
+    if "v" in args:
+        verbose = True
+    else: 
+        verbose = False
+
     # execution
     if not multiday:
         gpx = tl.GpxReadout(path[0])
-        plottrack(gpx, outpath, timeinput = timestrings)
+        plottrack(gpx, outpath, timeinput=timestrings, verbose=verbose)
         plothr(gpx, outpath)
         plotele(gpx, outpath)
     else:
         gpxs = [tl.GpxReadout(p) for p in path]
-        plotmultiday(gpxs, outpath)
+        plotmultiday(gpxs, outpath, verbose=verbose)
 
 
 if __name__ == "__main__":

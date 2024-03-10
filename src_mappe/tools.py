@@ -112,6 +112,27 @@ class GpxReadout:
         ets = (timesec - 3600 * eth - 60 * etm).astype(int)
         return str(eth) + ":" + str(etm) + ":" + str(ets)
 
+    def get_extremes(self):
+        startcoords_raw = [self.coordinate_raw[self.times == min(self.times), 0],
+                           self.coordinate_raw[self.times == min(self.times), 1]]
+        endcoords_raw = [self.coordinate_raw[self.times == max(self.times), 0],
+                            self.coordinate_raw[self.times == max(self.times), 1]]
+        startcoords  = [self.coordinate[self.times == min(self.times), 0],
+                        self.coordinate[self.times == min(self.times), 1]]
+        endcoords = [self.coordinate[self.times == max(self.times), 0],
+                        self.coordinate[self.times == max(self.times), 1]]
+        exttimes = [min(self.times), max(self.times)]
+        if self.ismultiday:
+            extdays = [min(self.days), max(self.days)]
+        else:
+            extdays = [self.days, self.days]
+        return {'startcoords_raw': startcoords_raw,
+                'endcoords_raw': endcoords_raw,
+                'startcoords': startcoords,
+                'endcoords': endcoords,
+                'exttimes': exttimes,
+                'extdays': extdays}
+
 
 def parse_args(arglist):
     args = {}
