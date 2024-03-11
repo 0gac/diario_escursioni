@@ -121,6 +121,8 @@ class GpxReadout:
                         self.coordinate[self.times == min(self.times), 1]]
         endcoords = [self.coordinate[self.times == max(self.times), 0],
                         self.coordinate[self.times == max(self.times), 1]]
+        extele = [self.ele[self.times == min(self.times)],
+                  self.ele[self.times == max(self.times)]]
         exttimes = [min(self.times), max(self.times)]
         if self.ismultiday:
             extdays = [min(self.days), max(self.days)]
@@ -130,6 +132,7 @@ class GpxReadout:
                 'endcoords_raw': endcoords_raw,
                 'startcoords': startcoords,
                 'endcoords': endcoords,
+                'extele': extele,
                 'exttimes': exttimes,
                 'extdays': extdays}
 
