@@ -3,6 +3,7 @@ import re
 import datetime
 import sys
 
+
 class GpxReadout:
     def __init__(self, filepath: str):
         self.coordinate_raw = []
@@ -84,7 +85,6 @@ class GpxReadout:
                 for i in range(self.numpoints - self.numele):
                     self.ele.append(None)
                     self.numele = self.numpoints
-                                
 
         self.coordinate_raw = np.array(self.coordinate_raw)
         self.coordinate = np.zeros(np.shape(self.coordinate_raw))
@@ -116,11 +116,11 @@ class GpxReadout:
         startcoords_raw = [self.coordinate_raw[self.times == min(self.times), 0],
                            self.coordinate_raw[self.times == min(self.times), 1]]
         endcoords_raw = [self.coordinate_raw[self.times == max(self.times), 0],
-                            self.coordinate_raw[self.times == max(self.times), 1]]
-        startcoords  = [self.coordinate[self.times == min(self.times), 0],
-                        self.coordinate[self.times == min(self.times), 1]]
+                         self.coordinate_raw[self.times == max(self.times), 1]]
+        startcoords = [self.coordinate[self.times == min(self.times), 0],
+                       self.coordinate[self.times == min(self.times), 1]]
         endcoords = [self.coordinate[self.times == max(self.times), 0],
-                        self.coordinate[self.times == max(self.times), 1]]
+                     self.coordinate[self.times == max(self.times), 1]]
         extele = [self.ele[self.times == min(self.times)],
                   self.ele[self.times == max(self.times)]]
         exttimes = [min(self.times), max(self.times)]

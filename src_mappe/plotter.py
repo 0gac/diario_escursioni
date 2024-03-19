@@ -5,10 +5,16 @@ import numpy as np
 import datetime
 
 
-def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray=None, verbose=False, leg_pos="lower left"):
+def plottrack(gpx: tl.GpxReadout,
+              outpath: str,
+              timeinput: np.ndarray = None,
+              verbose=False,
+              leg_pos="lower left",
+              short_avg=False):
     fig, ax = plt.subplots()
     if gpx.numele != 0:
-        plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5, c=gpx.ele, cmap='viridis_r')
+        plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0],
+                          s=5, c=gpx.ele, cmap='viridis_r')
         handles, labels = plot.legend_elements(prop="colors", alpha=0.3)
         ax.legend(handles, labels, loc=leg_pos, title="altitudine", prop={'size': 6})
     else:
@@ -32,8 +38,12 @@ def plottrack(gpx: tl.GpxReadout, outpath: str, timeinput: np.ndarray=None, verb
         timeinput = np.array([datetime.time.fromisoformat(x) for x in timeinput])
 
         for ts in timeinput:
-            ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=59)
-            lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
+            if short_avg:
+                ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=3)
+                lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
+            else:
+                ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=59)
+                lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
             coord_time = gpx.coordinate[np.logical_and(gpx.times > lbtime, gpx.times < ubtime)]
             pointpos = np.average(coord_time[:, 0:2], axis=0)
 
@@ -98,7 +108,7 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False):
         ax.scatter(e['startcoords'][1], e['startcoords'][0], s=60, c='k')
         ax.scatter(e['endcoords'][1], e['endcoords'][0], s=60, c='k')
         # adding "notte numero " annotation
-        if counter != len(tracks_extremes)-1:
+        if counter != len(tracks_extremes) - 1:
             label = "Notte " +\
                     str(counter + 1) +\
                     "\n" + str(e['extdays'][1].day) +\
@@ -118,8 +128,10 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False):
     endcoords = [te['endcoords'] for te in tracks_extremes]  # end coord for each day
     startcoords = [te['startcoords'] for te in tracks_extremes]  # stard coord for each day
 
-    startcoordstot = [s for s, f in zip(startcoords, fd) if f == min(fd)][0]  # start coord for the first day
-    endcoordstot = [e for e, l in zip(endcoords, ld) if l == max(ld)][0]  # end coord for the last day
+    # start coord for the first day
+    startcoordstot = [s for s, f in zip(startcoords, fd) if f == min(fd)][0]
+    # end coord for the last day
+    endcoordstot = [e for e, l in zip(endcoords, ld) if l == max(ld)][0]
 
     ax.scatter(endcoordstot[1],  # end of the last day
                endcoordstot[0],
@@ -168,3 +180,4 @@ def plotele(gpx: tl.GpxReadout, outpath: str):
         return 0
     else:
         return -1
+
