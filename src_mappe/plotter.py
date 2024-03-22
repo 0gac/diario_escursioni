@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import numpy as np
 import datetime
+import contextily as cx
 
 
 def plottrack(gpx: tl.GpxReadout,
@@ -10,18 +11,33 @@ def plottrack(gpx: tl.GpxReadout,
               timeinput: np.ndarray = None,
               verbose=False,
               leg_pos="lower left",
-              manual_img = None):
+              manual_img = None,
+              basemap_zoom = None):
 
     fig, ax = plt.subplots()
+
+    if basemap_zoom is not None:
+        app_dict = {'s': 3, 'alpha': .2}
+        w = min(gpx.coordinate[:, 1])
+        e = max(gpx.coordinate[:, 1])
+        s = min(gpx.coordinate[:, 0])
+        n = max(gpx.coordinate[:, 0])
+        img, ext = cx.bounds2img(w, s, e, n, ll=True, zoom=basemap_zoom, source=cx.providers.OpenTopoMap)
+        img, ext = cx.warp_tiles(img, ext)
+        ax.imshow(img, extent=ext)
+    else: 
+        app_dict = {'s': 5, 'alpha': 1}
 
     # plotting of the route, if present w elevation color map
     if gpx.numele != 0:
         plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0],
-                          s=5, c=gpx.ele, cmap='viridis_r')
+                          c=gpx.ele, cmap='winter', 
+                          **app_dict)
         handles, labels = plot.legend_elements(prop="colors", alpha=0.3)
         ax.legend(handles, labels, loc=leg_pos, title="altitudine", prop={'size': 6})
     else:
-        ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5)
+        ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0],
+                   **app_dict)
 
     # formatting of the axes
     ax.tick_params(
@@ -91,28 +107,18 @@ def plottrack(gpx: tl.GpxReadout,
     return count_images
 
 
-def plotmultiday(gpxs: list, outpath: str, verbose=False):
+def plotmultiday(gpxs: list, outpath: str, verbose=False, basemap_zoom=None):
     tracks = []
     tracks_ele = []
     tracks_extremes = []
     for gpx in gpxs:
-        tracks.append(gpx.coordinate_raw)
+        tracks.append(gpx.coordinate)
         tracks_ele.append(gpx.ele)
         tracks_extremes.append(gpx.get_extremes())
-
     maxx = max([max(t[:, 0]) for t in tracks])
     maxy = max([max(t[:, 1]) for t in tracks])
-
-    for t in tracks:
-        t[:, 0] = t[:, 0] / maxx
-        t[:, 1] = t[:, 1] / maxy
-
-    for te in tracks_extremes:
-        # normalization of start/stop coordinates considering all the tracks
-        te['startcoords'][0] = te['startcoords_raw'][0] / maxx
-        te['startcoords'][1] = te['startcoords_raw'][1] / maxy
-        te['endcoords'][0] = te['endcoords_raw'][0] / maxx
-        te['endcoords'][1] = te['endcoords_raw'][1] / maxy
+    minx = min([min(t[:, 0]) for t in tracks])
+    miny = min([min(t[:, 1]) for t in tracks])
 
     fig, ax = plt.subplots()
     ax.tick_params(
@@ -122,12 +128,23 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False):
         left=False,
         labelbottom=False,
         labelleft=False
-    )
+    )    
+
+    if basemap_zoom is not None:
+        app_dict = {'s': 3, 'alpha': .2}
+        w = miny
+        e = maxy
+        s = minx
+        n = maxx
+        img, ext = cx.bounds2img(w, s, e, n, ll=True, zoom=basemap_zoom, source=cx.providers.OpenTopoMap)
+        img, ext = cx.warp_tiles(img, ext)
+        ax.imshow(img, extent=ext)
+    else: 
+        app_dict = {'s': 5, 'alpha': 1}
 
     counter = 0
-    colmaps = ['viridis_r', 'plasma_r', 'inferno_r', 'magma_r', 'cividis_r']
     for t, e in zip(tracks, tracks_ele):
-        ax.scatter(t[:, 1], t[:, 0], s=5, c=e, cmap=colmaps[counter % len(colmaps)])
+        ax.scatter(t[:, 1], t[:, 0], c=e, cmap="winter", **app_dict)
         counter += 1
 
     counter = 0

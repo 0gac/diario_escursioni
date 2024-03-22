@@ -30,7 +30,7 @@ class GpxReadout:
                                          line)
                     if testpoint is not None:
                         self.numpoints += 1
-                        self.coordinate_raw.append([float(testpoint.group(1)), float(testpoint.group(2))])
+                        self.coordinate.append([float(testpoint.group(1)), float(testpoint.group(2))])
                         if self.numpoints % 1000 == 0:
                             sys.stdout.write(str(self.numpoints) + "\r")
                             sys.stdout.flush()
@@ -86,10 +86,7 @@ class GpxReadout:
                     self.ele.append(None)
                     self.numele = self.numpoints
 
-        self.coordinate_raw = np.array(self.coordinate_raw)
-        self.coordinate = np.zeros(np.shape(self.coordinate_raw))
-        self.coordinate[:, 0] = self.coordinate_raw[:, 0] / np.max(self.coordinate_raw[:, 0])
-        self.coordinate[:, 1] = self.coordinate_raw[:, 1] / np.max(self.coordinate_raw[:, 1])
+        self.coordinate = np.array(self.coordinate)
         self.times = np.array(self.times)
         self.days = np.array(self.days)
         if np.all(self.days == self.days[0]):
@@ -99,7 +96,7 @@ class GpxReadout:
 
         def tosec(x):
             return (x.hour * 60 + x.minute) * 60 + x.second
-
+        
         tosec_vec = np.vectorize(tosec)
 
         self.elap_time = tosec_vec(self.times) - tosec(min(self.times))
@@ -113,14 +110,10 @@ class GpxReadout:
         return str(eth) + ":" + str(etm) + ":" + str(ets)
 
     def get_extremes(self):
-        startcoords_raw = [self.coordinate_raw[self.times == min(self.times), 0],
-                           self.coordinate_raw[self.times == min(self.times), 1]]
-        endcoords_raw = [self.coordinate_raw[self.times == max(self.times), 0],
-                         self.coordinate_raw[self.times == max(self.times), 1]]
         startcoords = [self.coordinate[self.times == min(self.times), 0],
-                       self.coordinate[self.times == min(self.times), 1]]
+                           self.coordinate[self.times == min(self.times), 1]]
         endcoords = [self.coordinate[self.times == max(self.times), 0],
-                     self.coordinate[self.times == max(self.times), 1]]
+                         self.coordinate[self.times == max(self.times), 1]]
         extele = [self.ele[self.times == min(self.times)],
                   self.ele[self.times == max(self.times)]]
         exttimes = [min(self.times), max(self.times)]
@@ -128,13 +121,25 @@ class GpxReadout:
             extdays = [min(self.days), max(self.days)]
         else:
             extdays = [self.days, self.days]
-        return {'startcoords_raw': startcoords_raw,
-                'endcoords_raw': endcoords_raw,
-                'startcoords': startcoords,
+        return {'startcoords': startcoords,
                 'endcoords': endcoords,
                 'extele': extele,
                 'exttimes': exttimes,
                 'extdays': extdays}
+    
+    def normalized_coords(self):
+        coordinate_norm = np.zeros(np.shape(self.coordinate))
+        coordinate_norm[:, 0] = self.coordinate[:, 0] / np.max(self.coordinate[:, 0])
+        coordinate_norm[:, 1] = self.coordinate[:, 1] / np.max(self.coordinate[:, 1])
+
+        startcoords_norm = [self.coordinate_norm[self.times == min(self.times), 0],
+                       self.coordinate_norm[self.times == min(self.times), 1]]
+        endcoords_norm = [self.coordinate_norm[self.times == max(self.times), 0],
+                     self.coordinate_norm[self.times == max(self.times), 1]]
+        
+        return {'coordinate_norm': coordinate_norm,
+                'startcoords_norm': startcoords_norm,
+                'endcoords_norm': endcoords_norm}
 
 
 def parse_args(arglist):

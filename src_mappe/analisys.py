@@ -50,23 +50,41 @@ def main():
         leg_pos = 'lower left'
     
     # manual addition of points on the track
-        if "mi" in args:
-            assert(len(args['mi']) == 1)
-            manual_img = int(args['mi'][0])
-        else: 
-            manual_img = None
+    if "mi" in args:
+        assert(len(args['mi']) == 1)
+        manual_img = int(args['mi'][0])
+    else: 
+        manual_img = None
 
+    # basemap 
+    if "bm" in args:
+        if len(args["bm"]) == 1:
+            basemap_zoom = int(args["bm"][0])
+        elif len(args["bm"]) == 0:
+            if multiday:
+                basemap_zoom = 14
+            else:
+                basemap_zoom = 15
+        else:
+            print("Too many basemap zoom values")
+            return -1
+    else:
+        basemap_zoom = None
 
     # execution
     if not multiday:
         gpx = tl.GpxReadout(path[0])
         pl.plottrack(gpx, outpath,
-                     timeinput=timestrings, verbose=verbose, leg_pos=leg_pos, manual_img=manual_img)
+                     timeinput=timestrings,
+                     verbose=verbose,
+                     leg_pos=leg_pos,
+                     manual_img=manual_img,
+                     basemap_zoom=basemap_zoom)
         pl.plothr(gpx, outpath)
         pl.plotele(gpx, outpath)
     else:
         gpxs = [tl.GpxReadout(p) for p in path]
-        pl.plotmultiday(gpxs, outpath, verbose=verbose)
+        pl.plotmultiday(gpxs, outpath, verbose=verbose, basemap_zoom=basemap_zoom)
 
 
 if __name__ == "__main__":
