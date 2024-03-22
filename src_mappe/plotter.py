@@ -10,8 +10,11 @@ def plottrack(gpx: tl.GpxReadout,
               timeinput: np.ndarray = None,
               verbose=False,
               leg_pos="lower left",
-              short_avg=False):
+              manual_img = None):
+
     fig, ax = plt.subplots()
+
+    # plotting of the route, if present w elevation color map
     if gpx.numele != 0:
         plot = ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0],
                           s=5, c=gpx.ele, cmap='viridis_r')
@@ -20,6 +23,7 @@ def plottrack(gpx: tl.GpxReadout,
     else:
         ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0], s=5)
 
+    # formatting of the axes
     ax.tick_params(
         axis="both",
         which="both",
@@ -28,22 +32,21 @@ def plottrack(gpx: tl.GpxReadout,
         labelbottom=False,
         labelleft=False
     )
+
+    # plotting of the start and end points
     startpoint = np.reshape(gpx.coordinate[gpx.times == min(gpx.times)], 2)
     endpoint = np.reshape(gpx.coordinate[gpx.times == max(gpx.times)], 2)
     ax.scatter(startpoint[1], startpoint[0], s=60, color='green')
     ax.scatter(endpoint[1], endpoint[0], s=60, color='red')
 
+    # plotting of the time input points
     count_images = 0
     if timeinput is not None:
         timeinput = np.array([datetime.time.fromisoformat(x) for x in timeinput])
 
         for ts in timeinput:
-            if short_avg:
-                ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=3)
-                lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
-            else:
-                ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=59)
-                lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
+            ubtime = datetime.time(hour=ts.hour, minute=ts.minute, second=59)
+            lbtime = datetime.time(hour=ts.hour, minute=ts.minute, second=0)
             coord_time = gpx.coordinate[np.logical_and(gpx.times > lbtime, gpx.times < ubtime)]
             pointpos = np.average(coord_time[:, 0:2], axis=0)
 
@@ -54,8 +57,32 @@ def plottrack(gpx: tl.GpxReadout,
                         arrowprops=dict(
                         arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
                         color='k'))
+
+    if  manual_img is not None:
+        print("Click on the points where you want to add annotations")
+        global click_counter
+        click_counter = 0
+        # function to get the coordinates of the clicked points
+        def onclick(event):
+            global click_counter
+            print(click_counter)
+            ix, iy = event.xdata, event.ydata
+            print(click_counter, ix, iy)
+            click_counter += 1
+            ax.annotate(str(click_counter), xy=(ix, iy), xytext=(30, 30),
+                        textcoords='offset points',
+                        color='k', size='large',
+                        arrowprops=dict(
+                        arrowstyle='simple,tail_width=0.2,head_width=0.8,head_length=0.8',
+                        color='k'))
+            fig.canvas.draw()
+            if click_counter == manual_img:
+                fig.canvas.mpl_disconnect(cid)
+                plt.close(fig)
+        cid = fig.canvas.mpl_connect('button_press_event', onclick)
+        plt.show()
+
     fig.savefig(outpath + 'track.pdf', bbox_inches="tight")
-    plt.close(fig)
     if verbose:
         track_extremes = gpx.get_extremes()
         print("ora di inizio, altitudine iniziale | ora di fine, altitudine finale")

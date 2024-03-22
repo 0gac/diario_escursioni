@@ -48,17 +48,20 @@ def main():
         leg_pos = leg_pos[:-1]
     else:
         leg_pos = 'lower left'
-    # if short average
-    if "sa" in args:
-        short_avg = True
-    else:
-        short_avg = False
+    
+    # manual addition of points on the track
+        if "mi" in args:
+            assert(len(args['mi']) == 1)
+            manual_img = int(args['mi'][0])
+        else: 
+            manual_img = None
+
 
     # execution
     if not multiday:
         gpx = tl.GpxReadout(path[0])
         pl.plottrack(gpx, outpath,
-                     timeinput=timestrings, verbose=verbose, leg_pos=leg_pos, short_avg=short_avg)
+                     timeinput=timestrings, verbose=verbose, leg_pos=leg_pos, manual_img=manual_img)
         pl.plothr(gpx, outpath)
         pl.plotele(gpx, outpath)
     else:
