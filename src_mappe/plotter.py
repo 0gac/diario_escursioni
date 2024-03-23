@@ -18,13 +18,6 @@ def plottrack(gpx: tl.GpxReadout,
 
     if basemap_zoom is not None:
         app_dict = {'s': 3, 'alpha': .2}
-        w = min(gpx.coordinate[:, 1])
-        e = max(gpx.coordinate[:, 1])
-        s = min(gpx.coordinate[:, 0])
-        n = max(gpx.coordinate[:, 0])
-        img, ext = cx.bounds2img(w, s, e, n, ll=True, zoom=basemap_zoom, source=cx.providers.OpenTopoMap)
-        img, ext = cx.warp_tiles(img, ext)
-        ax.imshow(img, extent=ext)
     else: 
         app_dict = {'s': 5, 'alpha': 1}
 
@@ -38,6 +31,9 @@ def plottrack(gpx: tl.GpxReadout,
     else:
         ax.scatter(gpx.coordinate[:, 1], gpx.coordinate[:, 0],
                    **app_dict)
+    
+    if basemap_zoom is not None:
+        cx.add_basemap(ax, source=cx.providers.OpenTopoMap, zoom=basemap_zoom, crs='EPSG:4326', attribution_size=5, interpolation = 'none')
 
     # formatting of the axes
     ax.tick_params(
@@ -132,13 +128,6 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False, basemap_zoom=None):
 
     if basemap_zoom is not None:
         app_dict = {'s': 3, 'alpha': .2}
-        w = miny
-        e = maxy
-        s = minx
-        n = maxx
-        img, ext = cx.bounds2img(w, s, e, n, ll=True, zoom=basemap_zoom, source=cx.providers.OpenTopoMap)
-        img, ext = cx.warp_tiles(img, ext)
-        ax.imshow(img, extent=ext)
     else: 
         app_dict = {'s': 5, 'alpha': 1}
 
@@ -146,6 +135,9 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False, basemap_zoom=None):
     for t, e in zip(tracks, tracks_ele):
         ax.scatter(t[:, 1], t[:, 0], c=e, cmap="winter", **app_dict)
         counter += 1
+    
+    if basemap_zoom is not None:
+        cx.add_basemap(ax, source=cx.providers.OpenTopoMap, zoom=basemap_zoom, crs='EPSG:4326', attribution_size=5, interpolation = 'none')
 
     counter = 0
     for e in tracks_extremes:
