@@ -111,10 +111,6 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False, basemap_zoom=None):
         tracks.append(gpx.coordinate)
         tracks_ele.append(gpx.ele)
         tracks_extremes.append(gpx.get_extremes())
-    maxx = max([max(t[:, 0]) for t in tracks])
-    maxy = max([max(t[:, 1]) for t in tracks])
-    minx = min([min(t[:, 0]) for t in tracks])
-    miny = min([min(t[:, 1]) for t in tracks])
 
     fig, ax = plt.subplots()
     ax.tick_params(
