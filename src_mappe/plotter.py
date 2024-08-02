@@ -94,7 +94,7 @@ def plottrack(gpx: tl.GpxReadout,
         cid = fig.canvas.mpl_connect('button_press_event', onclick)
         plt.show()
 
-    fig.savefig(outpath + 'track.pdf', bbox_inches="tight")
+    fig.savefig(outpath + 'track.png', bbox_inches="tight")
     if verbose:
         track_extremes = gpx.get_extremes()
         print("ora di inizio, altitudine iniziale | ora di fine, altitudine finale")
@@ -172,7 +172,7 @@ def plotmultiday(gpxs: list, outpath: str, verbose=False, basemap_zoom=None):
                startcoordstot[0],
                s=90, c='g')
 
-    fig.savefig(outpath + 'multidaytrack.pdf', bbox_inches="tight")
+    fig.savefig(outpath + 'multidaytrack.png', bbox_inches="tight")
     plt.close(fig)
     if verbose:
         print("ora di inizio, altitudine iniziale | ora di fine, altitudine finale")
@@ -191,7 +191,7 @@ def plothr(gpx: tl.GpxReadout, outpath: str):
         ax.set_ylabel('Heart rate [BPM]')
         ax.grid()
         ax.plot(gpx.elap_time, gpx.hr, color='red')
-        fig.savefig(outpath + 'hr.pdf')
+        fig.savefig(outpath + 'hr.png')
         plt.close(fig)
         return 0
     else:
@@ -207,7 +207,7 @@ def plotele(gpx: tl.GpxReadout, outpath: str):
         ax.set_ylabel('Elevation [m SLM]')
         ax.grid()
         ax.plot(gpx.elap_time, gpx.ele, color='green')
-        fig.savefig(outpath + 'ele.pdf')
+        fig.savefig(outpath + 'ele.png')
         plt.close(fig)
         return 0
     else:
