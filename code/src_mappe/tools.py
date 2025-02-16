@@ -23,10 +23,10 @@ class GpxReadout:
             intopoints = False
             for line in file:
                 if not intopoints:
-                    if re.match("\s*<trk>\s*", line) is not None:
+                    if re.match(r"\s*<trk>\s*", line) is not None:
                         intopoints = True
                 else:
-                    testpoint = re.match("\s*<trkpt\slat=\"([0-9]{2}.[0-9]*)\"\slon=\"([0-9]{2}.[0-9]*)\">\s*",
+                    testpoint = re.match(r"\s*<trkpt\slat=\"([0-9]{2}.[0-9]*)\"\slon=\"([0-9]{2}.[0-9]*)\">\s*",
                                          line)
                     if testpoint is not None:
                         self.numpoints += 1
@@ -36,7 +36,7 @@ class GpxReadout:
                             sys.stdout.flush()
                         continue
 
-                    testtime = re.match("\s*<time>([0-9]{4}-[0-9]{2}-[0-9]{2})T([0-9]{2}\:[0-9]{2}:[0-9]{2})\.000Z</time>\s*",
+                    testtime = re.match(r"\s*<time>([0-9]{4}-[0-9]{2}-[0-9]{2})T([0-9]{2}\:[0-9]{2}:[0-9]{2})\.000Z</time>\s*",
                                         line)
                     if testtime is not None:
                         self.numtime += 1
@@ -51,7 +51,7 @@ class GpxReadout:
                         self.days.append(day_obj)
                         continue
 
-                    testhr = re.match("\s*<ns3:hr>([0-9]+)</ns3:hr>\s*",
+                    testhr = re.match(r"\s*<ns3:hr>([0-9]+)</ns3:hr>\s*",
                                       line)
                     if testhr is not None:
                         self.numhr += 1
@@ -62,7 +62,7 @@ class GpxReadout:
                         self.hr.append(int(testhr.group(1)))
                         continue
 
-                    testele = re.match("\s*<ele>([0-9]+)(\.[0-9]+)?</ele>\s*", line)
+                    testele = re.match(r"\s*<ele>([0-9]+)(\.[0-9]+)?</ele>\s*", line)
                     if testele is not None:
                         self.numele += 1
                         if self.numele != self.numpoints:
