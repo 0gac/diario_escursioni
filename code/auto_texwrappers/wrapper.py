@@ -29,13 +29,13 @@ data = {
     "caption_copertina_img2": "Rifugio Rinaldi, visto dal sentiero preso per salire.",
     "var_pathgrafici": "../resources",    
     "path_grafpage_img1": "../resources/gra1.png",
-    "custompar_grafpage_img1": ["\\textwidth", "", ""],
+    "custompar_grafpage_img1": ["", "", ""],
     "caption_grafpage_img1": "Rifugio Rinaldi.",
     "path_grafpage_img2": "../resources/gra2.png",
-    "custompar_grafpage_img2": ["\\textwidth", "", ""],
+    "custompar_grafpage_img2": ["", "", ""],
     "caption_grafpage_img2": "Targa sulla cima del Terminillo.",
     "path_grafpage_img3": "../resources/gra3.png",
-    "custompar_grafpage_img3": ["\\textwidth", "", ""],
+    "custompar_grafpage_img3": ["", "", ""],
     "caption_grafpage_img3": "alla fine del ripido sentiero per scendere da Terminillo, quasi a pranzo.",
     "var_NOTE": "Volevamo da tempo organizzare un trekking sugli appennini e finalmente siamo riusciti a trovare una giornata adatta. Purtroppo in grande parte delle zone attorno a noi faceva brutto tempo (monte vettore e massiccio del gran sasso), abbiamo quindi deciso di affrontare la salita sul monte Terminillo. \\Siamo partiti (io, Ceci e Michela) presto la mattina e quindi abbiamo iniziato a camminare poco dopo le 9, abbiamo anche fatto colazione in un baretto (Il bar di Heidi lol) vicino a dove abbiamo parcheggiato. Il posto era molto bello e la prima parte della salita molto semplice, seppur a tratti un pochettino ripida. La salita ci ha portati al rifugio Rinaldi, in compagnia di un gruppo di atletica giovanile di Roma (non proprio un'atmosfera pacifica e rilassante). Dopo un po' di riposo siamo ripartiti verso la cima, incontrando un sentiero più tecnico di quello che mi sarei aspettato ma comunque abbastanza breve. Purtroppo la vista dalla cima era oscurata dalle nuvole, ma comunque abbiamo trovato un bel paesaggio e un bel paio di personaggi piuttosto singolari (un po' merenderos ma neanche troppo, e un gruppo di vecchi rompipalle \"la montagna è di tutti ma...\"). Dopo una bella pausa in cima siamo scesi dall'altro lato della montagna alla volta del rifugio Sebastiani, la discesa è risultata piuttosto tecnica e ci abbiamo messo molto tempo (circa 2 ore). Arrivati al Sebastiani (che purtroppo era chiuso) abbiamo pranzato. \\Il ritorno è stato molto più semplice, 5 km circa in poco meno di un'ora, tutto pianeggiate attraverso un bel bosco. Tornati alla macchina abbiamo preso una fetta di torta nello stesso bar della colazione e dopo una breve pausa ci siamo avviati verso casa, passando per un negozio di scarpe a comprare le birkenstock tarocche per Ceci.",
     "path_fin_img1": "../resources/fin1.png",
@@ -45,7 +45,7 @@ data = {
     "custompar_fin_img2": ["", "", ""],
     "caption_fin_img2": "",
     "path_fin_img3": "../resources/fin3.png",
-    "custompar_fin_img3": ["", "0.5 \\linewidth", "-90"],
+    "custompar_fin_img3": ["", "0.5", "-90"],
     "caption_fin_img3": "il rifugio Rinaldi visto durante la discesa, nelle nuvole."
 }
 
@@ -73,12 +73,12 @@ def insertimage(imagepath, caption, cust_par, hasnumber = False):
     strdim = ""
     if cust_par[0] != "":
         width = cust_par[0]
-        strdim += "width = " + width
+        strdim += "width = " + width + "\\linewidth"
     if cust_par[1] != "":
         height = cust_par[1]
         if strdim != "":
             strdim += ", "
-        strdim += "height = " + height
+        strdim += "height = " + height + "\\linewidth"
     if strdim == "":
         if w > h:
             strdim = "width = 0.8\\linewidth"
