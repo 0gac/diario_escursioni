@@ -80,8 +80,18 @@ def main():
                      leg_pos=leg_pos,
                      manual_img=manual_img,
                      basemap_zoom=basemap_zoom)
-        pl.plothr(gpx, outpath)
-        pl.plotele(gpx, outpath)
+        hashr = 0
+        hasele = 0
+        print(gpx.numhr)
+        print(gpx.numele)
+        if gpx.numhr != 0:
+            pl.plothr(gpx, outpath)
+            hashr = 1
+        if gpx.numele != 0:
+            pl.plotele(gpx, outpath)
+            hasele = 1
+        return hashr, hasele
+
     else:
         gpxs = [tl.GpxReadout(p) for p in path]
         pl.plotmultiday(gpxs, outpath, verbose=verbose, basemap_zoom=basemap_zoom)

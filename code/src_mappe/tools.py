@@ -77,11 +77,15 @@ class GpxReadout:
                     self.times.append(datetime.time.fromisoformat('00:00:00'))
                     self.days.append(datetime.datetime.fromisoformat('1970-01-01'))
                     self.numtime = self.numpoints
-            if self.numhr != self.numpoints:
+            if self.numhr == 0:
+                pass
+            elif self.numhr != self.numpoints:
                 for i in range(self.numpoints - self.numhr):
                     self.hr.append(np.nan)
                     self.numhr = self.numpoints
-            if self.numele != self.numpoints:
+            if self.numele == 0:
+                pass
+            elif self.numele != self.numpoints:
                 for i in range(self.numpoints - self.numele):
                     self.ele.append(None)
                     self.numele = self.numpoints
